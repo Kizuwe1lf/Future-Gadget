@@ -30,9 +30,10 @@ bot = commands.Bot(command_prefix=get_prefix)
 @bot.command()
 @has_permissions(administrator=True)
 async def setprefix(ctx, prefix):
-    prefixes = {}
+    with open(r'prefixes.json', 'r') as f:
+        prefixes = json.load(f)
     prefixes[str(ctx.guild.id)] = prefix
-    with open(r'prefixes.json', 'a') as f:
+    with open(r'prefixes.json', 'w') as f:
         json.dump(prefixes, f)
     await ctx.send(f"Done new prefix = '{prefix}' for {ctx.guild.name} from now on")
 
@@ -41,10 +42,10 @@ async def setprefix(ctx, prefix):
 @has_permissions(administrator=True)
 async def setlanguage(ctx, language):
     with open(r'language.json', 'r') as f:
-        prefixes = json.load(f)
-    prefixes[str(ctx.guild.id)] = language
+        languages = json.load(f)
+    languages[str(ctx.guild.id)] = language
     with open(r'language.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
+        json.dump(languages, f, indent=4)
     await ctx.send(f"Done new tts language is '{language}' for {ctx.guild.name} from now on")
 
 
